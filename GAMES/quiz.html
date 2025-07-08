@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Quiz App</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: linear-gradient(135deg, #0419da, #0c4b94);
+      padding: 30px;
+      text-align: center;
+      overflow-x: hidden;
+    }
+
+    #quiz-box {
+      background: white;
+      border-radius: 10px;
+      padding: 30px;
+      max-width: 500px;
+      margin: auto;
+      box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+      animation: fadeIn 1s ease-in-out;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .question {
+      font-size: 22px;
+      margin-bottom: 20px;
+      animation: fadeSlide 0.5s ease-in-out;
+    }
+
+    .option {
+      display: block;
+      margin: 10px 0;
+      padding: 12px;
+      background: #f0f0f0;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: background 0.3s, transform 0.2s;
+      animation: fadeSlide 0.5s ease-in-out;
+    }
+
+    .option:hover {
+      background: #ddd;
+      transform: scale(1.03);
+    }
+
+    #timer {
+      font-size: 18px;
+      color: #e74c3c;
+      margin-bottom: 20px;
+      animation: pulse 1s infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.6; }
+    }
+
+    #result {
+      font-weight: bold;
+      font-size: 20px;
+      margin-top: 20px;
+      animation: fadeSlide 0.5s ease-in-out;
+    }
+
+    #start-btn {
+      padding: 12px 24px;
+      font-size: 16px;
+      background: #4c87af;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+
+    #start-btn:hover {
+      background: #45a0a0;
+    }
+
+    @keyframes fadeSlide {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+  </style>
+</head>
+<body>
+
+  <div id="quiz-box">
+    <h2>🧠 Quiz App</h2>
+    <div id="timer">⏱ Time left: 200s</div>
+    <div id="question-container">
+      <div class="question" id="question">Click "Start" to begin.</div>
+      <div id="options"></div>
+    </div>
+    <button id="start-btn" onclick="startQuiz()">Start</button>
+    <div id="result"></div>
+  </div>
+
+  <script>
+    const questions = [
+      { q: "What is the capital of India?", options: ["Mumbai", "Delhi", "Chennai", "Kolkata"], answer: "Delhi" },
+      { q: "Who is the President of India as of 2024?", options: ["Ram Nath Kovind", "Narendra Modi", "Droupadi Murmu", "Amit Shah"], answer: "Droupadi Murmu" },
+      { q: "Which state is known as the 'Land of Five Rivers'?", options: ["Punjab", "Uttar Pradesh", "Haryana", "Bihar"], answer: "Punjab" },
+      { q: "Which is the highest civilian award in India?", options: ["Padma Shri", "Padma Bhushan", "Padma Vibhushan", "Bharat Ratna"], answer: "Bharat Ratna" },
+      { q: "What does AI stand for?", options: ["Advanced Interface", "Artificial Intelligence", "Automated Input", "Analytical Interface"], answer: "Artificial Intelligence" },
+      { q: "Who invented the telephone?", options: ["Newton", "Edison", "Alexander Graham Bell", "Tesla"], answer: "Alexander Graham Bell" },
+      { q: "Which Indian festival is known as the festival of lights?", options: ["Holi", "Navratri", "Diwali", "Eid"], answer: "Diwali" },
+      { q: "What is the square root of 144?", options: ["12", "14", "16", "10"], answer: "12" },
+      { q: "Which programming language is most used in AI?", options: ["Java", "Python", "C", "PHP"], answer: "Python" },
+      { q: "Which gas is most abundant in Earth’s atmosphere?", options: ["Oxygen", "Carbon Dioxide", "Nitrogen", "Hydrogen"], answer: "Nitrogen" },
+      { q: "Which is the largest planet in our solar system?", options: ["Earth", "Jupiter", "Saturn", "Neptune"], answer: "Jupiter" },
+      { q: "What is the full form of CPU?", options: ["Central Power Unit", "Central Processing Unit", "Computer Processing Unit", "Control Processing Unit"], answer: "Central Processing Unit" }
+    ];
+
+    let currentIndex = 0;
+    let score = 0;
+    let timer;
+    let timeLeft = 200;
+
+    function startQuiz() {
+      document.getElementById("start-btn").style.display = "none";
+      score = 0;
+      currentIndex = 0;
+      timeLeft = 200;
+      document.getElementById("result").textContent = "";
+      loadQuestion();
+      timer = setInterval(updateTimer, 1000);
+    }
+
+    function updateTimer() {
+      timeLeft--;
+      document.getElementById("timer").textContent = `⏱ Time left: ${timeLeft}s`;
+      if (timeLeft <= 0) {
+        clearInterval(timer);
+        showResult();
+      }
+    }
+
+    function loadQuestion() {
+      if (currentIndex >= questions.length) {
+        clearInterval(timer);
+        showResult();
+        return;
+      }
+
+      const questionData = questions[currentIndex];
+      document.getElementById("question").textContent = questionData.q;
+
+      const optionsDiv = document.getElementById("options");
+      optionsDiv.innerHTML = "";
+
+      questionData.options.forEach(option => {
+        const btn = document.createElement("div");
+        btn.className = "option";
+        btn.textContent = option;
+        btn.onclick = () => checkAnswer(option);
+        optionsDiv.appendChild(btn);
+      });
+    }
+
+    function checkAnswer(selected) {
+      if (selected === questions[currentIndex].answer) {
+        score++;
+      }
+      currentIndex++;
+      loadQuestion();
+    }
+
+    function showResult() {
+      document.getElementById("question").textContent = "🎉 Quiz Over!";
+      document.getElementById("options").innerHTML = "";
+      document.getElementById("result").textContent = `✅ You scored ${score} out of ${questions.length}`;
+      document.getElementById("start-btn").textContent = "Restart";
+      document.getElementById("start-btn").style.display = "inline-block";
+    }
+  </script>
+
+</body>
+</html>

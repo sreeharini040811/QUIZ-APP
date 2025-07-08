@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Quiz App Login</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      background: linear-gradient(135deg, #74ebd5, #9face6);
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      font-family: 'Segoe UI', sans-serif;
+    }
+
+    h1 {
+      color: white;
+      font-size: 36px;
+      margin-bottom: 30px;
+      animation: slideDown 1s ease forwards;
+    }
+
+    @keyframes slideDown {
+      from {
+        opacity: 0;
+        transform: translateY(-30px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .login-box {
+      background: white;
+      padding: 40px;
+      border-radius: 12px;
+      box-shadow: 0 15px 25px rgba(0,0,0,0.2);
+      width: 300px;
+      animation: fadeIn 1s ease forwards;
+      opacity: 0;
+    }
+
+    @keyframes fadeIn {
+      from {
+        transform: translateY(30px);
+        opacity: 0;
+      }
+      to {
+        transform: translateY(0);
+        opacity: 1;
+      }
+    }
+
+    .login-box h2 {
+      margin-bottom: 20px;
+      color: #333;
+    }
+
+    .login-box input[type="text"],
+    .login-box input[type="password"] {
+      width: 100%;
+      padding: 10px;
+      margin: 10px 0;
+      border: none;
+      border-bottom: 2px solid #ccc;
+      background: transparent;
+      transition: border-color 0.3s;
+      outline: none;
+      font-size: 16px;
+    }
+
+    .login-box input:focus {
+      border-bottom: 2px solid #6a82fb;
+    }
+
+    .login-box button {
+      margin-top: 20px;
+      width: 100%;
+      padding: 10px;
+      background: #d6d8e0;
+      color: rgb(15, 17, 151);
+      border: none;
+      border-radius: 5px;
+      font-size: 16px;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+
+    .login-box button:hover {
+      background: #0b28b6;
+      color: white;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>QUIZ APP</h1>
+
+  <div class="login-box">
+    <h2>Login</h2>
+    <form onsubmit="login(event)">
+      <input id="username" type="text" placeholder="Username" required>
+      <input id="password" type="password" placeholder="Password" required>
+      <button type="submit">Login</button>
+    </form>
+  </div>
+
+  <script>
+    function login(event) {
+      event.preventDefault();
+      const username = document.getElementById("username").value;
+      const password = document.getElementById("password").value;
+      if (username && password) {
+        window.location.href = "quiz.html";
+      } else {
+        alert("Please fill in both fields.");
+      }
+    }
+  </script>
+
+</body>
+</html>
