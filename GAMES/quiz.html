@@ -92,7 +92,7 @@
 <body>
 
   <div id="quiz-box">
-    <h2>🧠 Quiz App</h2>
+    <h2>Quiz App</h2>
     <div id="timer">⏱ Time left: 200s</div>
     <div id="question-container">
       <div class="question" id="question">Click "Start" to begin.</div>
@@ -173,9 +173,9 @@
     }
 
     function showResult() {
-      document.getElementById("question").textContent = "🎉 Quiz Over!";
+      document.getElementById("question").textContent = " Quiz Over!";
       document.getElementById("options").innerHTML = "";
-      document.getElementById("result").textContent = `✅ You scored ${score} out of ${questions.length}`;
+      document.getElementById("result").textContent = `You scored ${score} out of ${questions.length}`;
       document.getElementById("start-btn").textContent = "Restart";
       document.getElementById("start-btn").style.display = "inline-block";
     }
@@ -183,3 +183,4 @@
 
 </body>
 </html>
+
